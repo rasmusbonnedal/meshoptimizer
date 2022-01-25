@@ -129,6 +129,7 @@ struct Settings
 	bool texture_flipy;
 	float texture_scale;
 	int texture_limit;
+	int keep_texture_set;
 
 	bool texture_uastc[TextureKind__Count];
 	int texture_quality[TextureKind__Count];
@@ -281,7 +282,7 @@ bool compareMeshNodes(const Mesh& lhs, const Mesh& rhs);
 void mergeMeshInstances(Mesh& mesh);
 void mergeMeshes(std::vector<Mesh>& meshes, const Settings& settings);
 void filterEmptyMeshes(std::vector<Mesh>& meshes);
-void filterStreams(Mesh& mesh, const MaterialInfo& mi);
+void filterStreams(Mesh& mesh, const MaterialInfo& mi, int keep_texture_set = -1);
 
 void mergeMeshMaterials(cgltf_data* data, std::vector<Mesh>& meshes, const Settings& settings);
 void markNeededMaterials(cgltf_data* data, std::vector<MaterialInfo>& materials, const std::vector<Mesh>& meshes, const Settings& settings);

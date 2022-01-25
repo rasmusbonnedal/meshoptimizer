@@ -353,7 +353,7 @@ static void process(cgltf_data* data, const char* input_path, const char* output
 			mi.textureSetMask |= vi.textureSetMask;
 		}
 
-		filterStreams(mesh, mi);
+		filterStreams(mesh, mi, settings.keep_texture_set);
 	}
 
 	mergeMeshMaterials(data, meshes, settings);
@@ -1145,6 +1145,7 @@ Settings defaults()
 	settings.texture_scale = 1.f;
 	for (int kind = 0; kind < TextureKind__Count; ++kind)
 		settings.texture_quality[kind] = 8;
+	settings.keep_texture_set = -1;
 
 	return settings;
 }
@@ -1216,6 +1217,10 @@ int main(int argc, char** argv)
 		else if (strcmp(arg, "-vc") == 0 && i + 1 < argc && isdigit(argv[i + 1][0]))
 		{
 			settings.col_bits = clamp(atoi(argv[++i]), 1, 16);
+		}
+		else if (strcmp(arg, "-kts") == 0 && i + 1 < argc && isdigit(argv[i + 1][0]))
+		{
+			settings.keep_texture_set = atoi(argv[++i]);
 		}
 		else if (strcmp(arg, "-at") == 0 && i + 1 < argc && isdigit(argv[i + 1][0]))
 		{
@@ -1449,6 +1454,7 @@ int main(int argc, char** argv)
 			fprintf(stderr, "\t-vt N: use N-bit quantization for texture coordinates (default: 12; N should be between 1 and 16)\n");
 			fprintf(stderr, "\t-vn N: use N-bit quantization for normals and tangents (default: 8; N should be between 1 and 16)\n");
 			fprintf(stderr, "\t-vc N: use N-bit quantization for colors (default: 8; N should be between 1 and 16)\n");
+			fprintf(stderr, "\t-kts N: keep unused texcoord sets <= N (default: -1 = don't keep any unused sets)\n");
 			fprintf(stderr, "\nAnimations:\n");
 			fprintf(stderr, "\t-at N: use N-bit quantization for translations (default: 16; N should be between 1 and 24)\n");
 			fprintf(stderr, "\t-ar N: use N-bit quantization for rotations (default: 12; N should be between 4 and 16)\n");

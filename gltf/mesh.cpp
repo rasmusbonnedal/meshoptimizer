@@ -401,11 +401,10 @@ static bool hasDeltas(const std::vector<Attr>& data)
 	return false;
 }
 
-void filterStreams(Mesh& mesh, const MaterialInfo& mi)
+void filterStreams(Mesh& mesh, const MaterialInfo& mi, int keep_texture_set)
 {
 	bool morph_normal = false;
 	bool morph_tangent = false;
-	int keep_texture_set = -1;
 
 	for (size_t i = 0; i < mesh.streams.size(); ++i)
 	{
